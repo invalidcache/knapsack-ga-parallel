@@ -46,7 +46,6 @@ Individual *Mutation(Individual *ind, float mutationRate) {
         printf("ERROR: Individual NULL on function %s\n", __func__);
         return NULL;
     }
-    
 
     for (int i = 0; i < ind->geneSize; i++) {
         int randomIntegerPart = rand() % 1000;
