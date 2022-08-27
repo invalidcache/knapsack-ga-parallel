@@ -1,10 +1,13 @@
-libraries = individual.c
+CC = gcc
+CFLAGS = -D DEBUG
+
+libraries = individual.c population.c
 objects   = *.o
 
 .DEFAULT_GOAL := install
 
 library: $(libraries)
-	gcc -c $(libraries)
+	$(CC) $(CFLAGS) -c $(libraries)
 
 install: library
-	gcc -o main.out main.c $(objects)
+	$(CC) $(CFLAGS) main.c $(objects) -o main.out 

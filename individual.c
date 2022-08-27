@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include "individual.h"
+#include "global.h"
 
 
 char *convertGeneToString(Individual *ind) {
@@ -21,14 +22,13 @@ Individual *NewIndividual(int geneSize) {
     Individual *newIndividual = (Individual *) malloc(sizeof(Individual));
     newIndividual->genes = (int *) malloc(geneSize * sizeof(int));
     newIndividual->geneSize = geneSize;
-    srand(time(NULL));
     for (int i = 0; i < geneSize; i++) {
         newIndividual->genes[i] = rand() % 2;
     }
     return newIndividual;
 }
 
-void String(Individual *ind) {
+void IndividualString(Individual *ind) {
     if (ind == NULL) {
         printf("NULL");
         return;
@@ -37,5 +37,77 @@ void String(Individual *ind) {
     "\tgeneSize: %d\n"
     "\tgenes: %s\n"
     "\tfitness: %.2f\n"
-    "}", ind->geneSize, convertGeneToString(ind), ind->fitness);
+    "}\n", ind->geneSize, convertGeneToString(ind), ind->fitness);
+}
+
+
+Individual *Mutation(Individual *ind, float mutationRate) {
+    if (ind == NULL) {
+        printf("ERROR: Individual NULL on function %s\n", __func__);
+        return NULL;
+    }
+    
+
+    for (int i = 0; i < ind->geneSize; i++) {
+        int randomIntegerPart = rand() % 1000;
+        float floatRandomPart = randomIntegerPart / 1000;
+        if (floatRandomPart < mutationRate) {
+            #ifdef DEBUG
+            printf("Flipping bit on individual.\n");
+            printf("Before: %s\n", convertGeneToString(ind));
+            #endif
+            ind->genes[i] = ind->genes[i] == 0 ? 1 : 0;
+            #ifdef DEBUG
+            printf("After: %s\n", convertGeneToString(ind));
+            #endif
+        }
+    }
+    
+    return ind;
+}
+
+float CalculateFitness(Individual *ind, int* objectValues) {
+    if (ind == NULL) {
+        printf("ERROR: Individual NULL on function %s\n", __func__);
+        return 0.0;
+    }
+
+    int geneSize = ind->geneSize;
+    int sum = 0;
+
+    for (int i = 0; i < geneSize; i++) {
+        sum += ind->genes[i]*objectValues[i];
+    }
+
+    return sum;
+}   
+
+Individual *CrossOver(Individual *ind1, Individual *ind2) {
+    if (ind1 == NULL) {
+        printf("ERROR: Individual1 NULL on function %s\n", __func__);
+        return NULL;
+    }
+
+    if (ind2 == NULL) {
+        printf("ERROR: Individual2 NULL on function %s\n", __func__);
+        return NULL;
+    }
+
+    int geneSize = ind1->geneSize;
+    int sep = rand() % geneSize;
+    Individual *newIndividual = NewIndividual(geneSize);
+
+    #ifdef DEBUG
+        printf("Separation index: %d\n", sep);
+    #endif
+
+    for (int i = 0; i <= sep; i++) {
+        newIndividual->genes[i] = ind1->genes[i];
+    }
+
+    for (int i = sep+1; i < geneSize; i++) {
+        newIndividual->genes[i] = ind2->genes[i];
+    }
+
+    return newIndividual;
 }
