@@ -33,11 +33,12 @@ Individual *CrossOver(Individual *ind1, Individual *ind2);
 */
 Individual *Mutation(Individual *ind, float mutationRate);
 
+Individual *Repair(Individual *ind, int* objectWeights, int knapsackWeightMax);
+
 /*
 * IndividualString prints the information about one individual
 */
 void IndividualString(Individual *ind);
 
-Individual *Repair(Individual *ind);
 
 #endif

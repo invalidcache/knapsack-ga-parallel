@@ -11,6 +11,8 @@ int main(int argc, char const *argv[])
 
 
     int objectValues[GENESIZE] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    int objectWeights[GENESIZE] = {12, 13, 3, 11, 41, 2, 51, 1, 10, 1};
+    int maxWeight = 1;
     float fitness1, fitness2;
     Individual *ind = NewIndividual(GENESIZE);
     IndividualString(ind);
@@ -25,6 +27,9 @@ int main(int argc, char const *argv[])
 
     Individual *ind3_cross = CrossOver(ind, ind2);
     IndividualString(ind3_cross);
+
+    Individual *repairedIndividual = Repair(ind, objectWeights, maxWeight);
+    IndividualString(repairedIndividual);
 
     return 0;
 }

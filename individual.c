@@ -111,3 +111,28 @@ Individual *CrossOver(Individual *ind1, Individual *ind2) {
 
     return newIndividual;
 }
+
+Individual *Repair(Individual *ind, int* objectWeights, int knapsackWeightMax) {
+    if (ind == NULL) {
+        printf("ERROR: Individual NULL on function %s\n", __func__);
+        return NULL;
+    }
+    int currentWeight;
+    while (TRUE) {
+        currentWeight = 0;
+        for (int i = 0; i < ind->geneSize; i++) {
+            currentWeight += (ind->genes[i] * objectWeights[i]);
+        }
+
+        if (currentWeight <= knapsackWeightMax) {
+            break;
+        }
+
+        int geneIndex = rand() % ind->geneSize;
+        #ifdef DEBUG
+        printf("Excluding index: %d\n", geneIndex);
+        #endif
+        ind->genes[geneIndex] = ind->genes[geneIndex] == 0 ? 0 : 0;
+    }
+    return ind;
+}
