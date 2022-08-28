@@ -15,6 +15,8 @@ typedef struct individual Individual;
 */
 Individual *NewIndividual(int geneSize);
 
+void DeleteIndividual(Individual *ind);
+
 /*
 * CalculateFitness gets one individual ind
 * and calculate its fitness

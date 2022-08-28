@@ -28,6 +28,11 @@ Individual *NewIndividual(int geneSize) {
     return newIndividual;
 }
 
+void DeleteIndividual(Individual *ind) {
+    free(ind->genes);
+    free(ind);
+}
+
 void IndividualString(Individual *ind) {
     if (ind == NULL) {
         printf("NULL");
@@ -77,6 +82,8 @@ float CalculateFitness(Individual *ind, int* objectValues) {
     for (int i = 0; i < geneSize; i++) {
         sum += ind->genes[i]*objectValues[i];
     }
+
+    ind->fitness = sum;
 
     return sum;
 }   

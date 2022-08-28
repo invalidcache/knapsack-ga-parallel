@@ -10,7 +10,7 @@ int main(int argc, char const *argv[])
     srand(time(NULL));
 
 
-    // int objectValues[GENESIZE] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    int objectValues[GENESIZE] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     // int objectWeights[GENESIZE] = {12, 13, 3, 11, 41, 2, 51, 1, 10, 1};
     // int maxWeight = 1;
     // float fitness1, fitness2;
@@ -31,8 +31,12 @@ int main(int argc, char const *argv[])
     // Individual *repairedIndividual = Repair(ind, objectWeights, maxWeight);
     // IndividualString(repairedIndividual);
 
-    Population *pop = NewPopulation(4, 8);
+    Population *pop = NewPopulation(4, GENESIZE, objectValues);
+    Population *newPop = Selection(pop, 2, objectValues);
     PopulationString(pop);
+    PopulationString(newPop);
 
+    DeletePopulation(pop);
+    DeletePopulation(newPop);
     return 0;
 }
