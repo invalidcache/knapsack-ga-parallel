@@ -4,15 +4,15 @@
 #include "individual.h"
 
 struct population {
-    Individual *individuals;
+    Individual **individuals;
     int numberOfIndividuals;
 };
 
 typedef struct population Population;
 
-Population *NewPopulation(int populationSize);
+Population *NewPopulation(int populationSize, int geneSize);
 
-Population *Selection(Population *pop);
+Population *Selection(Population *pop, int k);
 
 void PopulationString(Population *pop);
 
