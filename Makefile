@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -g3
 
-libraries = individual.c population.c knapsack.c
+libraries = individual.c population.c knapsack.c file_util.c
 objects   = *.o
 
 .DEFAULT_GOAL := install

@@ -46,7 +46,6 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
     printf("Starting first Firness\n");
     // Get Fitness
     for (int i=0; i < pop->numberOfIndividuals; i++) {
-        IndividualString(pop->individuals[i]);
         pop->individuals[i]->fitness = CalculateFitness(pop->individuals[i], instance->objectValues);
     }
 

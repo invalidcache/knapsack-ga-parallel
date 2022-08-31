@@ -43,4 +43,6 @@ Individual *Repair(Individual *ind, int* objectWeights, int knapsackWeightMax);
 void IndividualString(Individual *ind);
 
 
+
+
 #endif

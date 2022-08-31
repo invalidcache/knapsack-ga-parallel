@@ -5,16 +5,16 @@
 #include "population.h"
 #include "knapsack.h"
 #include "global.h"
+#include "file_util.h"
 
 int main(int argc, char const *argv[])
 {
     srand(time(NULL));
 
-    int objectValues[NUMBER_OF_OBJECTS] = {55, 10, 47, 5, 4, 50, 8, 61, 85, 87};
-    int objectWeights[NUMBER_OF_OBJECTS] = {95, 4, 60, 32, 23, 72, 80, 62, 65, 46};
+    ProblemInfo *info = GetProblemInfoFromFile("teste.txt");
     
-    Population *initalPopulation = NewPopulation(POPULATION_SIZE, GENESIZE, objectValues);
-    Knapsack *instance = NewKnapsackProblem(objectValues, objectWeights, PROBLEM_MAX_WEIGHT, NUMBER_OF_OBJECTS, initalPopulation);
+    Population *initalPopulation = NewPopulation(POPULATION_SIZE, info->numberOfObjects, info->objectValues);
+    Knapsack *instance = NewKnapsackProblem(info->objectValues, info->objectWeights, info->knapsackMaxWeight, info->numberOfObjects, initalPopulation);
     Individual *bestIndividual = Solver(instance, GENERATIONS, TOURNMENT_PARTICIPANTS, MUTATION_RATE);
 
     IndividualString(bestIndividual);
