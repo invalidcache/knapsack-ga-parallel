@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -g -D DEBUG
+CFLAGS = -g3
 
 libraries = individual.c population.c knapsack.c
 objects   = *.o

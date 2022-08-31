@@ -17,6 +17,14 @@ void DeletePopulation(Population *pop);
 
 Population *Selection(Population *pop, int num_participants, int* objectValues);
 
+float GetBestFitness(Population *pop);
+
+float GetAvgFitness(Population *pop);
+
+void copyIndividual(Individual *destination, Individual *source);
+
+Individual *GetBestIndividual(Population *pop);
+
 void PopulationString(Population *pop);
 
 

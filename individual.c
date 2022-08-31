@@ -30,7 +30,9 @@ Individual *NewIndividual(int geneSize) {
 
 void DeleteIndividual(Individual *ind) {
     free(ind->genes);
+    ind->genes = NULL;
     free(ind);
+    ind = NULL;
 }
 
 void IndividualString(Individual *ind) {

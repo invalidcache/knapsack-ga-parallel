@@ -22,9 +22,12 @@ Population *NewPopulation(int populationSize, int geneSize, int* objectValues) {
 void DeletePopulation(Population *pop){
     for (int i = 0; i < pop->numberOfIndividuals; i++) {
         DeleteIndividual(pop->individuals[i]);
+        pop->individuals[i] = NULL;
     }
     free(pop->individuals);
+    pop->individuals = NULL;
     free(pop);
+    pop = NULL;
 }
 
 void copyIndividual(Individual *destination, Individual *source) {
@@ -69,6 +72,36 @@ Population *Selection(Population *pop, int num_participants, int* objectValues) 
     }
 
     return new_pop;
+}
+
+float GetBestFitness(Population *pop) {
+    float currFitness = INT_MIN;
+    for (int i=0; i < pop->numberOfIndividuals; i++) {
+        if (pop->individuals[i]->fitness > currFitness) {
+            currFitness = pop->individuals[i]->fitness;
+        }
+    }
+    return currFitness;
+}
+
+float GetAvgFitness(Population *pop) {
+    float acumulateFitness = 0;
+    for (int i=0; i < pop->numberOfIndividuals; i++) {
+        acumulateFitness += pop->individuals[i]->fitness;
+    }
+    return acumulateFitness/pop->numberOfIndividuals;
+}
+
+Individual *GetBestIndividual(Population *pop) {
+    float currFitness = INT_MIN;
+    Individual *ind = NULL;
+    for (int i=0; i < pop->numberOfIndividuals; i++) {
+        if (pop->individuals[i]->fitness > currFitness) {
+            currFitness = pop->individuals[i]->fitness;
+            ind = pop->individuals[i];
+        }
+    }
+    return ind;
 }
 
 void PopulationString(Population *pop) {
