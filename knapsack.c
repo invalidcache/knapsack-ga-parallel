@@ -19,7 +19,7 @@ void DeleteKnapsackProblem(Knapsack *instance) {
     instance = NULL;
 }
 
-Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentParticipants, float mutationRate) {
+Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentParticipants, float mutationRate, float crossoverRate) {
     Population *pop = instance->population;
     Population *selectedPop;
 
@@ -61,9 +61,13 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
 
         // Cross Over
         for (int j=0; j<pop->numberOfIndividuals; j++) {
-            Individual *indAddrs = pop->individuals[j];
-            pop->individuals[j] = CrossOver(pop->individuals[j], selectedPop->individuals[j]);
-            free(indAddrs);
+            int randomIntegerPart = rand() % 1000;
+            float floatRandomPart = randomIntegerPart / 1000;
+            if (floatRandomPart < crossoverRate) {
+                Individual *indAddrs = pop->individuals[j];
+                pop->individuals[j] = CrossOver(pop->individuals[j], selectedPop->individuals[j]);
+                free(indAddrs);
+            }
         } 
 
         // Mutation

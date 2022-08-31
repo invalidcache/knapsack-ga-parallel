@@ -17,6 +17,6 @@ Knapsack *NewKnapsackProblem(int *objectValues, int *objectWeights, int maxWeigh
 
 void DeleteKnapsackProblem(Knapsack *instance);
 
-Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentParticipants, float mutationRate);
+Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentParticipants, float mutationRate, float crossoverRate);
 
 #endif
