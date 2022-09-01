@@ -78,13 +78,13 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
         } 
 
         // Repair
-        for (int i=0; i < pop->numberOfIndividuals; i++) {
-            pop->individuals[i] = Repair(pop->individuals[i], instance->objectWeights, instance->maxWeight);
+        for (int j=0; j < pop->numberOfIndividuals; j++) {
+            pop->individuals[j] = Repair(pop->individuals[j], instance->objectWeights, instance->maxWeight);
         }
 
         // Get Fitness
-        for (int i=0; i < pop->numberOfIndividuals; i++) {
-            pop->individuals[i]->fitness = CalculateFitness(pop->individuals[i], instance->objectValues);
+        for (int j=0; j < pop->numberOfIndividuals; j++) {
+            pop->individuals[j]->fitness = CalculateFitness(pop->individuals[j], instance->objectValues);
         }
 
         copyIndividual(pop->individuals[rand()%pop->numberOfIndividuals], bestIndividual);
