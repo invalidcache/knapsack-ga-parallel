@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "individual.h"
 #include "population.h"
 #include "knapsack.h"
@@ -51,12 +52,15 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
         pop->individuals[i]->fitness = CalculateFitness(pop->individuals[i], instance->objectValues);
     }
 
+    clock_t begin, end;
+
     printf("Starting first Generation\n");
     for (int i=0; i < numberOfGenerations; i++) {
+        begin = clock();
         Individual *bestIndividual = NewIndividual(pop->numberOfGenes);
         copyIndividual(bestIndividual, GetBestIndividual(pop));
         
-        printf("Generation: %d/%d | Best Fitness: %.2f | Avg Fitness: %.2f\n", i+1, numberOfGenerations, GetBestFitness(pop), GetAvgFitness(pop));
+        // printf("Generation: %d/%d | Best Fitness: %.2f | Avg Fitness: %.2f\n", i+1, numberOfGenerations, GetBestFitness(pop), GetAvgFitness(pop));
         
         // Selection
         selectedPop = Selection(pop, tournamentParticipants, instance->objectValues);
@@ -90,6 +94,9 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
         copyIndividual(pop->individuals[rand()%pop->numberOfIndividuals], bestIndividual);
 
         free(selectedPop);
+        end = clock();
+        printf("Avg. time taken in seconds: %.2f\n", ((double)(end - begin))/CLOCKS_PER_SEC);
+
     }
 
     return GetBestIndividual(pop);
