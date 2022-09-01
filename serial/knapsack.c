@@ -15,6 +15,8 @@ Knapsack *NewKnapsackProblem(int *objectValues, int *objectWeights, int maxWeigh
 }
 
 void DeleteKnapsackProblem(Knapsack *instance) {
+    free(instance->objectValues);
+    free(instance->objectWeights);
     free(instance);
     instance = NULL;
 }

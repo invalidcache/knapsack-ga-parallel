@@ -10,4 +10,7 @@ library: $(libraries)
 	$(CC) $(CFLAGS) -c $(libraries)
 
 install: library
-	$(CC) $(CFLAGS) main.c $(objects) -o main.out 
+	$(CC) $(CFLAGS) main.c $(objects) -o main.out
+
+clean:
+	rm *.o *.out
