@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 #include "individual.h"
-#include "global.h"
+#include "../global.h"
 
 
 char *convertGeneToString(Individual *ind) {

@@ -60,7 +60,7 @@ Population *Selection(Population *pop, int num_participants, int* objectValues) 
         #ifdef DEBUG
         printf("Start Tournament\n");
         #endif
-        // #pragma omp omp_set_num_threads(3) parallel for 
+        #pragma omp parallel for 
         for (int j = 0; j < num_participants; j++) {
             selected_individual_index = rand()%pop->numberOfIndividuals;
             #ifdef DEBUG

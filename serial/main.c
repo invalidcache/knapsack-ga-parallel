@@ -4,7 +4,7 @@
 #include "individual.h"
 #include "population.h"
 #include "knapsack.h"
-#include "global.h"
+#include "../global.h"
 #include "file_util.h"
 
 int main(int argc, char const *argv[])
