@@ -40,6 +40,7 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
 
     // Repair
     printf("Starting first repair\n");
+    #pragma omp parallel for
     for (int i=0; i < pop->numberOfIndividuals; i++) {
         pop->individuals[i] = Repair(pop->individuals[i], instance->objectWeights, instance->maxWeight);
     }
@@ -48,6 +49,7 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
 
     printf("Starting first Firness\n");
     // Get Fitness
+    #pragma omp parallel for
     for (int i=0; i < pop->numberOfIndividuals; i++) {
         pop->individuals[i]->fitness = CalculateFitness(pop->individuals[i], instance->objectValues);
     }
@@ -64,35 +66,53 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
         // Selection
         selectedPop = Selection(pop, tournamentParticipants, instance->objectValues);
 
-        #pragma omp parallel for
-        // Cross Over
-        for (int j=0; j<pop->numberOfIndividuals; j++) {
-            int randomIntegerPart = rand() % 1000;
-            float floatRandomPart = randomIntegerPart / 1000;
-            if (floatRandomPart < crossoverRate) {
-                Individual *indAddrs = pop->individuals[j];
-                pop->individuals[j] = CrossOver(pop->individuals[j], selectedPop->individuals[j]);
-                free(indAddrs);
-            }
-        } 
+        #pragma omp parallel 
+        {
+            #pragma omp for
+                // Cross Over
+                for (int j=0; j<pop->numberOfIndividuals; j++) {
+                    int randomIntegerPart = rand() % 1000;
+                    float floatRandomPart = randomIntegerPart / 1000;
+                    if (floatRandomPart < crossoverRate) {
+                        Individual *indAddrs = pop->individuals[j];
+                        pop->individuals[j] = CrossOver(pop->individuals[j], selectedPop->individuals[j]);
+                        free(indAddrs);
+                    }
+                } 
 
-        #pragma omp parallel for
-        // Mutation
-        for (int j=0; j<pop->numberOfIndividuals; j++) {
-            pop->individuals[j] = Mutation(pop->individuals[j], mutationRate);
-        } 
+            #pragma omp for collapse(2)
+                // Mutation
+                for (int j=0; j<pop->numberOfIndividuals; j++) {
+                    for (int k = 0; k < pop->individuals[0]->geneSize; k++) {
+                        int randomIntegerPart = rand() % 1000;
+                        float floatRandomPart = randomIntegerPart / 1000;
+                        if (floatRandomPart < mutationRate) {
+                            #ifdef DEBUG
+                            printf("Flipping bit on individual.\n");
+                            printf("Before: %s\n", convertGeneToString(ind));
+                            #endif
+                            pop->individuals[j]->genes[k] = pop->individuals[j]->genes[k] == 0 ? 1 : 0;
+                            #ifdef DEBUG
+                            printf("After: %s\n", convertGeneToString(ind));
+                            #endif
+                        }
+                    }
+                    // pop->individuals[j] = Mutation(pop->individuals[j], mutationRate);
+                } 
 
-        #pragma omp parallel for
-        // Repair
-        for (int j=0; j < pop->numberOfIndividuals; j++) {
-            pop->individuals[j] = Repair(pop->individuals[j], instance->objectWeights, instance->maxWeight);
+            #pragma omp for
+                // Repair
+                for (int j=0; j < pop->numberOfIndividuals; j++) {
+                    pop->individuals[j] = Repair(pop->individuals[j], instance->objectWeights, instance->maxWeight);
+                }
+
+            #pragma omp for
+                // Get Fitness
+                for (int j=0; j < pop->numberOfIndividuals; j++) {
+                    pop->individuals[j]->fitness = CalculateFitness(pop->individuals[j], instance->objectValues);
+                }
         }
-
-        #pragma omp parallel for
-        // Get Fitness
-        for (int j=0; j < pop->numberOfIndividuals; j++) {
-            pop->individuals[j]->fitness = CalculateFitness(pop->individuals[j], instance->objectValues);
-        }
+        
 
         copyIndividual(pop->individuals[rand()%pop->numberOfIndividuals], bestIndividual);
 

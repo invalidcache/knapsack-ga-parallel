@@ -11,7 +11,7 @@ Population *NewPopulation(int populationSize, int geneSize, int* objectValues) {
     pop->numberOfIndividuals = populationSize;
     pop->numberOfGenes = geneSize;
 
-    // #pragma omp omp_set_num_threads(3) parallel for
+    #pragma omp omp_set_num_threads(3) parallel for
     for (int i = 0; i < populationSize; i++) {
         #ifdef DEBUG_PARALLEL
             int threadId = omp_get_thread_num();
