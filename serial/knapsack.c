@@ -35,7 +35,7 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
         printf("Instance is NULL\n");
         return NULL;
     }
-    
+
     // PopulationString(pop);
 
     // Repair
@@ -43,7 +43,7 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
     for (int i=0; i < pop->numberOfIndividuals; i++) {
         pop->individuals[i] = Repair(pop->individuals[i], instance->objectWeights, instance->maxWeight);
     }
- 
+
     // PopulationString(pop);
 
     printf("Starting first Firness\n");
@@ -59,27 +59,27 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
         begin = clock();
         Individual *bestIndividual = NewIndividual(pop->numberOfGenes);
         copyIndividual(bestIndividual, GetBestIndividual(pop));
-        
-        // printf("Generation: %d/%d | Best Fitness: %.2f | Avg Fitness: %.2f\n", i+1, numberOfGenerations, GetBestFitness(pop), GetAvgFitness(pop));
-        
+
+        printf("Generation: %d/%d | Best Fitness: %.2f | Avg Fitness: %.2f\n", i+1, numberOfGenerations, GetBestFitness(pop), GetAvgFitness(pop));
+
         // Selection
         selectedPop = Selection(pop, tournamentParticipants, instance->objectValues);
 
         // Cross Over
         for (int j=0; j<pop->numberOfIndividuals; j++) {
             int randomIntegerPart = rand() % 1000;
-            float floatRandomPart = randomIntegerPart / 1000;
+            float floatRandomPart = (float) randomIntegerPart / (float) 1000;
             if (floatRandomPart < crossoverRate) {
                 Individual *indAddrs = pop->individuals[j];
                 pop->individuals[j] = CrossOver(pop->individuals[j], selectedPop->individuals[j]);
                 free(indAddrs);
             }
-        } 
+        }
 
         // Mutation
         for (int j=0; j<pop->numberOfIndividuals; j++) {
             pop->individuals[j] = Mutation(pop->individuals[j], mutationRate);
-        } 
+        }
 
         // Repair
         for (int j=0; j < pop->numberOfIndividuals; j++) {

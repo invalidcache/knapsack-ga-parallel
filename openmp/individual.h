@@ -4,7 +4,7 @@
 struct individual {
     int geneSize;
     int *genes;
-    float fitness; 
+    float fitness;
 };
 
 typedef struct individual Individual;
@@ -21,7 +21,7 @@ void DeleteIndividual(Individual *ind);
 * CalculateFitness gets one individual ind
 * and calculate its fitness
 */
-float CalculateFitness(Individual *ind, int* objectValues); 
+float CalculateFitness(Individual *ind, int* objectValues);
 
 /*
 * CrossOver makes the crossover between two

@@ -37,7 +37,7 @@ void copyIndividual(Individual *destination, Individual *source) {
     }
     destination->fitness = source->fitness;
     memcpy(destination->genes, source->genes, sizeof(int)*source->geneSize);
-    destination->geneSize = source->geneSize; 
+    destination->geneSize = source->geneSize;
 }
 
 Population *Selection(Population *pop, int num_participants, int* objectValues) {

@@ -35,7 +35,7 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
         printf("Instance is NULL\n");
         return NULL;
     }
-    
+
     // PopulationString(pop);
 
     // Repair
@@ -44,7 +44,7 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
     for (int i=0; i < pop->numberOfIndividuals; i++) {
         pop->individuals[i] = Repair(pop->individuals[i], instance->objectWeights, instance->maxWeight);
     }
- 
+
     // PopulationString(pop);
 
     printf("Starting first Firness\n");
@@ -60,32 +60,32 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
 
         Individual *bestIndividual = NewIndividual(pop->numberOfGenes);
         copyIndividual(bestIndividual, GetBestIndividual(pop));
-        
-        // printf("Generation: %d/%d | Best Fitness: %.2f | Avg Fitness: %.2f\n", i+1, numberOfGenerations, GetBestFitness(pop), GetAvgFitness(pop));
-        
+
+        printf("Generation: %d/%d | Best Fitness: %.2f | Avg Fitness: %.2f\n", i+1, numberOfGenerations, GetBestFitness(pop), GetAvgFitness(pop));
+
         // Selection
         selectedPop = Selection(pop, tournamentParticipants, instance->objectValues);
 
-        #pragma omp parallel 
+        #pragma omp parallel
         {
             #pragma omp for
                 // Cross Over
                 for (int j=0; j<pop->numberOfIndividuals; j++) {
                     int randomIntegerPart = rand() % 1000;
-                    float floatRandomPart = randomIntegerPart / 1000;
+                    float floatRandomPart = (float) randomIntegerPart / (float) 1000;
                     if (floatRandomPart < crossoverRate) {
                         Individual *indAddrs = pop->individuals[j];
                         pop->individuals[j] = CrossOver(pop->individuals[j], selectedPop->individuals[j]);
                         free(indAddrs);
                     }
-                } 
+                }
 
             #pragma omp for collapse(2)
                 // Mutation
                 for (int j=0; j<pop->numberOfIndividuals; j++) {
                     for (int k = 0; k < pop->individuals[0]->geneSize; k++) {
                         int randomIntegerPart = rand() % 1000;
-                        float floatRandomPart = randomIntegerPart / 1000;
+                        float floatRandomPart = (float) randomIntegerPart / (float) 1000;
                         if (floatRandomPart < mutationRate) {
                             #ifdef DEBUG
                             printf("Flipping bit on individual.\n");
@@ -98,7 +98,7 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
                         }
                     }
                     // pop->individuals[j] = Mutation(pop->individuals[j], mutationRate);
-                } 
+                }
 
             #pragma omp for
                 // Repair
@@ -112,7 +112,7 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
                     pop->individuals[j]->fitness = CalculateFitness(pop->individuals[j], instance->objectValues);
                 }
         }
-        
+
 
         copyIndividual(pop->individuals[rand()%pop->numberOfIndividuals], bestIndividual);
 

@@ -43,7 +43,7 @@ void copyIndividual(Individual *destination, Individual *source) {
     }
     destination->fitness = source->fitness;
     memcpy(destination->genes, source->genes, sizeof(int)*source->geneSize);
-    destination->geneSize = source->geneSize; 
+    destination->geneSize = source->geneSize;
 }
 
 Population *Selection(Population *pop, int num_participants, int* objectValues) {
@@ -53,14 +53,14 @@ Population *Selection(Population *pop, int num_participants, int* objectValues) 
     int selected_individual_index;
 
     Population *new_pop = NewPopulation(pop->numberOfIndividuals, pop->numberOfGenes, objectValues);
-    
+
     for (int i = 0; i < pop->numberOfIndividuals; i++) {
         best_tournament_fitness = INT_MIN;
         best_tournament_index = -1;
         #ifdef DEBUG
         printf("Start Tournament\n");
         #endif
-        #pragma omp parallel for 
+        #pragma omp parallel for
         for (int j = 0; j < num_participants; j++) {
             selected_individual_index = rand()%pop->numberOfIndividuals;
             #ifdef DEBUG

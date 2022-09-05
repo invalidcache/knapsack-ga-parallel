@@ -56,7 +56,7 @@ Individual *Mutation(Individual *ind, float mutationRate) {
 
     for (int i = 0; i < ind->geneSize; i++) {
         int randomIntegerPart = rand() % 1000;
-        float floatRandomPart = randomIntegerPart / 1000;
+        float floatRandomPart = (float) randomIntegerPart / (float) 1000;
         if (floatRandomPart < mutationRate) {
             #ifdef DEBUG
             printf("Flipping bit on individual.\n");
@@ -68,7 +68,7 @@ Individual *Mutation(Individual *ind, float mutationRate) {
             #endif
         }
     }
-    
+
     return ind;
 }
 
@@ -88,7 +88,7 @@ float CalculateFitness(Individual *ind, int* objectValues) {
     ind->fitness = sum;
 
     return sum;
-}   
+}
 
 Individual *CrossOver(Individual *ind1, Individual *ind2) {
     if (ind1 == NULL) {
