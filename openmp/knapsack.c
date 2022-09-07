@@ -123,12 +123,12 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
         free(selectedPop);
         double end = omp_get_wtime();
         printf("Avg. time taken in seconds: %.2f\n", end - start);
-        // accumulator+=((double)(end - start));
+        accumulator+=((double)(end - start));
     }
 
-    // totalTimeEnd = clock();
-    // printf("Mean of Averages of total time: %.2f\n", accumulator/numberOfGenerations);
-    // printf("Total time: %.2f\n", ((double)(totalTimeEnd - totalTimeBegin))/CLOCKS_PER_SEC);
+    totalTimeEnd = clock();
+    printf("Mean of Averages of total time: %.2f\n", accumulator/numberOfGenerations);
+    printf("Total time: %.2f\n", ((double)(totalTimeEnd - totalTimeBegin))/CLOCKS_PER_SEC);
 
     return GetBestIndividual(pop);
 }

@@ -103,8 +103,8 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
     }
     totalTimeEnd = clock();
 
-    printf("Mean of Averages of total time: %.2f\n", accumulator/numberOfGenerations);
-    printf("Total time: %.2f\n", ((double)(totalTimeEnd - totalTimeBegin))/CLOCKS_PER_SEC);
+    printf("Mean of Averages of total time: %.3f\n", accumulator/numberOfGenerations);
+    printf("Total time: %.3f\n", ((double)(totalTimeEnd - totalTimeBegin))/CLOCKS_PER_SEC);
 
     return GetBestIndividual(pop);
 }

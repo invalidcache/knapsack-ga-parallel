@@ -1,0 +1,1 @@
+CUDA Version available at: [here](https://colab.research.google.com/drive/1rMw5lH5nyu-s0-v6TFBG9z5vusZfwrvq?usp=sharing)
