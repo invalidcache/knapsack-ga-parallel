@@ -53,8 +53,10 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
     }
 
     clock_t begin, end;
-
+    clock_t totalTimeBegin, totalTimeEnd;
+    double accumulator = 0;
     printf("Starting first Generation\n");
+    totalTimeBegin = clock();
     for (int i=0; i < numberOfGenerations; i++) {
         begin = clock();
         Individual *bestIndividual = NewIndividual(pop->numberOfGenes);
@@ -96,8 +98,13 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
         free(selectedPop);
         end = clock();
         printf("Avg. time taken in seconds: %.2f\n", ((double)(end - begin))/CLOCKS_PER_SEC);
+        accumulator+=((double)(end - begin)/CLOCKS_PER_SEC);
 
     }
+    totalTimeEnd = clock();
+
+    printf("Mean of Averages of total time: %.2f\n", accumulator/numberOfGenerations);
+    printf("Total time: %.2f\n", ((double)(totalTimeEnd - totalTimeBegin))/CLOCKS_PER_SEC);
 
     return GetBestIndividual(pop);
 }
