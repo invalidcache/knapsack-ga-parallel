@@ -50,10 +50,11 @@ void IndividualString(Individual *ind) {
 }
 
 __global__ void CudaGaMutation(Individual *ind, float mutationRate) {
-    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    int stride = gridDim.x * blockDim.x;
     curandState_t *state;
 
-    if (i < ind->geneSize) {
+    for (int i = idx; i < ind->geneSize; i += stride) {
         curand_init(i, 0, 0, state);
         if (curand_uniform(state) < mutationRate) {
             ind->genes[i] = ind->genes[i] == 0 ? 1 : 0;
