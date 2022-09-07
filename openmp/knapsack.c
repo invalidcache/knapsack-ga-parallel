@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <omp.h>
+#include <time.h>
 #include "individual.h"
 #include "population.h"
 #include "knapsack.h"
@@ -54,7 +55,10 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
         pop->individuals[i]->fitness = CalculateFitness(pop->individuals[i], instance->objectValues);
     }
 
+    clock_t totalTimeBegin, totalTimeEnd;
+    double accumulator = 0;
     printf("Starting first Generation\n");
+    // totalTimeBegin = clock();
     for (int i=0; i < numberOfGenerations; i++) {
         double start = omp_get_wtime();
 
@@ -119,7 +123,12 @@ Individual *Solver(Knapsack *instance, int numberOfGenerations, int tournamentPa
         free(selectedPop);
         double end = omp_get_wtime();
         printf("Avg. time taken in seconds: %.2f\n", end - start);
+        // accumulator+=((double)(end - start));
     }
+
+    // totalTimeEnd = clock();
+    // printf("Mean of Averages of total time: %.2f\n", accumulator/numberOfGenerations);
+    // printf("Total time: %.2f\n", ((double)(totalTimeEnd - totalTimeBegin))/CLOCKS_PER_SEC);
 
     return GetBestIndividual(pop);
 }
